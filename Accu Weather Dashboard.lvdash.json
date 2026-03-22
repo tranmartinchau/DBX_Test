@@ -1,0 +1,289 @@
+{
+  "datasets": [
+    {
+      "name": "78f144e1",
+      "displayName": "accuweather_notebook_daily",
+      "queryLines": [
+        "SELECT *, \r\n",
+        "  CASE city_name\r\n",
+        "    WHEN 'New York' THEN 'USA'\r\n",
+        "    WHEN 'Los Angeles' THEN 'USA'\r\n",
+        "    WHEN 'Chicago' THEN 'USA'\r\n",
+        "    WHEN 'London' THEN 'UK'\r\n",
+        "    WHEN 'Manchester' THEN 'UK'\r\n",
+        "    WHEN 'Birmingham' THEN 'UK'\r\n",
+        "    WHEN 'Paris' THEN 'France'\r\n",
+        "    WHEN 'Marseille' THEN 'France'\r\n",
+        "    WHEN 'Lyon' THEN 'France'\r\n",
+        "    WHEN 'Tokyo' THEN 'Japan'\r\n",
+        "    WHEN 'Osaka' THEN 'Japan'\r\n",
+        "    WHEN 'Nagoya' THEN 'Japan'\r\n",
+        "    WHEN 'Sydney' THEN 'Australia'\r\n",
+        "    WHEN 'Melbourne' THEN 'Australia'\r\n",
+        "    WHEN 'Brisbane' THEN 'Australia'\r\n",
+        "    WHEN 'Toronto' THEN 'Canada'\r\n",
+        "    WHEN 'Vancouver' THEN 'Canada'\r\n",
+        "    WHEN 'Montreal' THEN 'Canada'\r\n",
+        "    WHEN 'Berlin' THEN 'Germany'\r\n",
+        "    WHEN 'Munich' THEN 'Germany'\r\n",
+        "    WHEN 'Frankfurt' THEN 'Germany'\r\n",
+        "    WHEN 'Madrid' THEN 'Spain'\r\n",
+        "    WHEN 'Barcelona' THEN 'Spain'\r\n",
+        "    WHEN 'Valencia' THEN 'Spain'\r\n",
+        "    WHEN 'Rome' THEN 'Italy'\r\n",
+        "    WHEN 'Milan' THEN 'Italy'\r\n",
+        "    WHEN 'Naples' THEN 'Italy'\r\n",
+        "    WHEN 'Beijing' THEN 'China'\r\n",
+        "    WHEN 'Shanghai' THEN 'China'\r\n",
+        "    WHEN 'Guangzhou' THEN 'China'\r\n",
+        "    WHEN 'Moscow' THEN 'Russia'\r\n",
+        "    WHEN 'Saint Petersburg' THEN 'Russia'\r\n",
+        "    WHEN 'Novosibirsk' THEN 'Russia'\r\n",
+        "    WHEN 'Delhi' THEN 'India'\r\n",
+        "    WHEN 'Mumbai' THEN 'India'\r\n",
+        "    WHEN 'Bangalore' THEN 'India'\r\n",
+        "    -- add more mappings as needed\r\n",
+        "    ELSE 'Unknown'\r\n",
+        "  END AS country\r\n",
+        "FROM workspace.default.accuweather_notebook_daily"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "de22b750",
+      "displayName": "Untitled page",
+      "layout": [
+        {
+          "widget": {
+            "name": "987db68a",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "78f144e1",
+                  "fields": [
+                    {
+                      "name": "source",
+                      "expression": "`source`"
+                    },
+                    {
+                      "name": "daily(date)",
+                      "expression": "DATE_TRUNC(\"DAY\", `date`)"
+                    },
+                    {
+                      "name": "avg(avg_temp_celsius)",
+                      "expression": "AVG(`avg_temp_celsius`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "daily(date)",
+                  "scale": {
+                    "type": "temporal"
+                  }
+                },
+                "y": {
+                  "fieldName": "avg(avg_temp_celsius)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "source",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "751a17fc",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "78f144e1",
+                  "fields": [
+                    {
+                      "name": "city_name",
+                      "expression": "`city_name`"
+                    },
+                    {
+                      "name": "avg(avg_temp_celsius)",
+                      "expression": "AVG(`avg_temp_celsius`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Top 5 Hottest Cities",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "city_name",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "avg(avg_temp_celsius)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "city_name",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 6,
+            "width": 12,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "24bdd702",
+      "displayName": "Global Filters",
+      "layout": [
+        {
+          "widget": {
+            "name": "a8c382d9",
+            "queries": [
+              {
+                "name": "dashboards/01f125efaf8d1c149e3a54f31e8ea7e1/datasets/01f125f1a1941945bed46211aa70effd_city_name",
+                "query": {
+                  "datasetName": "78f144e1",
+                  "fields": [
+                    {
+                      "name": "city_name",
+                      "expression": "`city_name`"
+                    },
+                    {
+                      "name": "city_name_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true
+              },
+              "widgetType": "filter-single-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "city_name",
+                    "queryName": "dashboards/01f125efaf8d1c149e3a54f31e8ea7e1/datasets/01f125f1a1941945bed46211aa70effd_city_name"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "2f48680f",
+            "queries": [
+              {
+                "name": "dashboards/01f125efaf8d1c149e3a54f31e8ea7e1/datasets/01f125f1a1941945bed46211aa70effd_monthly(date)",
+                "query": {
+                  "datasetName": "78f144e1",
+                  "fields": [
+                    {
+                      "name": "monthly(date)",
+                      "expression": "DATE_TRUNC(\"MONTH\", `date`)"
+                    },
+                    {
+                      "name": "monthly(date)_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true
+              },
+              "widgetType": "filter-single-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "monthly(date)",
+                    "displayName": "MONTHLY(date)",
+                    "queryName": "dashboards/01f125efaf8d1c149e3a54f31e8ea7e1/datasets/01f125f1a1941945bed46211aa70effd_monthly(date)"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 1,
+            "height": 2
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_GLOBAL_FILTERS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}
